@@ -12,6 +12,8 @@ public class List1Activity extends AppCompatActivity {
     private ListView list1;
     private MyAdapter adapter;
 
+    private String[] dataset = {"Item 1","Item 2","Item 3","Item 4","Item 5","Item 6"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
