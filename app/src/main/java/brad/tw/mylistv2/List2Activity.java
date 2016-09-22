@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -14,6 +16,7 @@ public class List2Activity extends AppCompatActivity {
     private String[] dataset = {"Item 1","Item 2","Item 3","Item 4","Item 5","Item 6"};
     private LinkedList<String> data;
     private LinearLayoutManager mLayoutManager;
+    private MyAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +35,8 @@ public class List2Activity extends AppCompatActivity {
         recycler.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-//        mAdapter = new MyAdapter(myDataset);
-//        recycler.setAdapter(mAdapter);
+        adapter = new MyAdapter();
+        recycler.setAdapter(adapter);
     }
 
     private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
@@ -41,28 +44,39 @@ public class List2Activity extends AppCompatActivity {
         class MyViewHolder extends RecyclerView.ViewHolder {
             // each data item is just a string in this case
             public TextView mTextView;
-            public MyViewHolder(TextView v) {
+            public MyViewHolder(View v) {
                 super(v);
-                mTextView = v;
+                mTextView = (TextView) v;
             }
         }
 
-        public MyAdapter() {
-        }
+//        public MyAdapter() {
+//        }
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return null;
+
+            // brad
+            View view = View.inflate(List2Activity.this,
+                    R.layout.layout_itemv2,null);
+
+            // google
+//            View view = LayoutInflater.from(List2Activity.this)
+//                    .inflate(R.layout.layout_itemv2, parent, false);
+
+            MyViewHolder holder = new MyViewHolder(view);
+
+            return holder;
         }
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-
+            holder.mTextView.setText(data.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return data.size();
         }
     }
 
