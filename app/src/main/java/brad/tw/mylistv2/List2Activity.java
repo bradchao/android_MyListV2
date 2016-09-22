@@ -86,7 +86,8 @@ public class List2Activity extends AppCompatActivity {
             public TextView mTextView;
             public MyViewHolder(View v) {
                 super(v);
-                mTextView = (TextView) v;
+
+                mTextView = (TextView) v.findViewById(R.id.itemv2_title);
             }
         }
 
