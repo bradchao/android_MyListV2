@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.LinkedList;
 
+import io.github.codefalling.recyclerviewswipedismiss.SwipeDismissRecyclerViewTouchListener;
+
 public class List2Activity extends AppCompatActivity {
     private RecyclerView recycler;
     private String[] dataset = {"Item 1","Item 2","Item 3","Item 4","Item 5","Item 6"};
@@ -37,6 +39,44 @@ public class List2Activity extends AppCompatActivity {
         // specify an adapter (see also next example)
         adapter = new MyAdapter();
         recycler.setAdapter(adapter);
+
+        SwipeDismissRecyclerViewTouchListener listener = new SwipeDismissRecyclerViewTouchListener.Builder(
+                recycler,
+                new SwipeDismissRecyclerViewTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(int position) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onDismiss(View view) {
+                        // Do what you want when dismiss
+                        int p = recycler.getChildPosition(view);
+                        data.remove(p);
+                        adapter.notifyDataSetChanged();
+                    }
+                })
+                .setIsVertical(false)
+                .setItemTouchCallback(
+                        new SwipeDismissRecyclerViewTouchListener.OnItemTouchCallBack() {
+                            @Override
+                            public void onTouch(int index) {
+                                // Do what you want when item be touched
+                            }
+                        })
+                .setItemClickCallback(new SwipeDismissRecyclerViewTouchListener.OnItemClickCallBack() {
+                    @Override
+                    public void onClick(int position) {
+                        // Do what you want when item be clicked                    }
+                    }})
+                    .setBackgroundId(R.drawable.android, R.drawable.android)
+                    .create();
+
+
+
+        recycler.setOnTouchListener(listener);
+
+
     }
 
     private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
@@ -49,9 +89,6 @@ public class List2Activity extends AppCompatActivity {
                 mTextView = (TextView) v;
             }
         }
-
-//        public MyAdapter() {
-//        }
 
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
